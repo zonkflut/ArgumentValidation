@@ -42,9 +42,15 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Argument.cs" />
+    <Compile Include="ArgumentCollectionExtesnsions.cs" />
+    <Compile Include="ArgumentComparableExtentions.cs" />
+    <Compile Include="ArgumentStringExtensions.cs" />
     <Compile Include="ArgumentValidator.cs" />
-    <Compile Include="Check.cs" />
+    <Compile Include="ArgumentExtensions.cs" />
+    <Compile Include="CollectionArgument.cs" />
     <Compile Include="IAndArgument.cs" />
+    <Compile Include="ICollectionAndArgument.cs" />
+    <Compile Include="ICollectionIsArgument.cs" />
     <Compile Include="IIsArgument.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
