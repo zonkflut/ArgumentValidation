@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections;
+using System.Linq;
 using System.Linq.Expressions;
 
 namespace ArgumentValidation
@@ -24,7 +25,7 @@ namespace ArgumentValidation
         {
             var member = (MemberExpression)argument.Body;
             var value = argument.Compile()();
-            return value is ICollection
+            return member.Type.GetInterfaces().Contains(typeof(ICollection))
                 ? new CollectionArgument<T>(argumentName ?? member.Member.Name, value)
                 : new Argument<T>(argumentName ?? member.Member.Name, value);
         }
