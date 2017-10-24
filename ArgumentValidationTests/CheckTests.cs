@@ -298,7 +298,81 @@ namespace ArgumentValidationTests
                 () => CheckArgument(() => myArgument).Collection().Is.CountLessThan(lessThanCount, message),
                 Throws.ArgumentException.With.Message.EqualTo($"{message}\r\nParameter name: {nameof(myArgument)}"));
         }
-        // todo: collection count greater than
-        // todo: collection contains
+
+        [Test]
+        public void CollectionChecksArgument_CountGreaterThan_ReturnsValue()
+        {
+            var myArgument = new string[10].Select((v, i) => i.ToString()).ToList();
+            var greaterThanCount = myArgument.Count - 1;
+            var returnedValue = CheckArgument(() => myArgument).Collection().Is.CountGreaterThan(greaterThanCount).Value;
+            Assert.AreEqual(myArgument, returnedValue);
+        }
+
+        [Test]
+        public void CollectionChecksArgument_CountGreaterThan_ThrowsArgumentException_WithDefaultMessage()
+        {
+            var myArgument = new string[10].Select((v, i) => i.ToString()).ToList();
+            var greaterThanCount = myArgument.Count + 1;
+            Assert.That(
+                () => CheckArgument(() => myArgument).Collection().Is.CountGreaterThan(greaterThanCount),
+                Throws.ArgumentException.With.Message.EqualTo($"{nameof(myArgument)} count must be greater than {greaterThanCount} actual value {myArgument.Count}\r\nParameter name: {nameof(myArgument)}"));
+        }
+
+        [Test]
+        public void CollectionChecksArgument_CountGreaterThan_ThrowsArgumentException_WithDefaultMessage_ForNullValue()
+        {
+            string[] myArgument = null;
+            var greaterThanCount = 10;
+            Assert.That(
+                () => CheckArgument(() => myArgument).Collection().Is.CountGreaterThan(greaterThanCount),
+                Throws.ArgumentException.With.Message.EqualTo($"{nameof(myArgument)} count must be greater than {greaterThanCount} actual value null\r\nParameter name: {nameof(myArgument)}"));
+        }
+
+        [Test]
+        public void CollectionChecksArgument_CountGreaterThan_ThrowsArgumentException_WithCustomMessage()
+        {
+            var myArgument = new string[10].Select((v, i) => i.ToString()).ToList();
+            var greaterThanCount = myArgument.Count + 1;
+            var message = "custom message";
+            Assert.That(
+                () => CheckArgument(() => myArgument).Collection().Is.CountGreaterThan(greaterThanCount, message),
+                Throws.ArgumentException.With.Message.EqualTo($"{message}\r\nParameter name: {nameof(myArgument)}"));
+        }
+
+        [Test]
+        public void CollectionChecksArgument_ContainingItem_ReturnsValue()
+        {
+            var myArgument = new string[10].Select((v, i) => i.ToString()).ToList();
+            var returnedValue = CheckArgument(() => myArgument).Collection().Is.ContainingItem(myArgument[0]).Value;
+            Assert.AreEqual(myArgument, returnedValue);
+        }
+
+        [Test]
+        public void CollectionChecksArgument_ContainingItem_ThrowsArgumentException_WithDefaultMessage()
+        {
+            var myArgument = new string[10].Select((v, i) => i.ToString()).ToList();
+            Assert.That(
+                () => CheckArgument(() => myArgument).Collection().Is.ContainingItem("not found"),
+                Throws.ArgumentException.With.Message.EqualTo($"{nameof(myArgument)} does not contain provided item\r\nParameter name: {nameof(myArgument)}"));
+        }
+
+        [Test]
+        public void CollectionChecksArgument_ContainingItem_ThrowsArgumentException_WithDefaultMessage_ForNullValue()
+        {
+            string[] myArgument = null;
+            Assert.That(
+                () => CheckArgument(() => myArgument).Collection().Is.ContainingItem("not found"),
+                Throws.ArgumentException.With.Message.EqualTo($"{nameof(myArgument)} does not contain provided item\r\nParameter name: {nameof(myArgument)}"));
+        }
+
+        [Test]
+        public void CollectionChecksArgument_ContainingItem_ThrowsArgumentException_WithCustomMessage()
+        {
+            var myArgument = new string[10].Select((v, i) => i.ToString()).ToList();
+            var message = "custom message";
+            Assert.That(
+                () => CheckArgument(() => myArgument).Collection().Is.ContainingItem("not found", message),
+                Throws.ArgumentException.With.Message.EqualTo($"{message}\r\nParameter name: {nameof(myArgument)}"));
+        }
     }
 }
