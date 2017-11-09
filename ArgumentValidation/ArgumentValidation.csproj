@@ -4,21 +4,22 @@
     <TargetFramework>net461</TargetFramework>
     <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
     <PackageId>Zonkflut.ArgumentValidation</PackageId>
+    <Title>Zonkflut.ArgumentValidation</Title>
     <Authors>Erik Nilsson</Authors>
     <Company>Erik Nilsson</Company>
-    <Description>A validator of arguments</Description>
+    <Description>A validator for arguments.</Description>
     <Copyright>Copyright © Erik Nilsson 2017</Copyright>
     <PackageLicenseUrl>https://raw.githubusercontent.com/zonkflut/ArgumentValidation/master/LICENSE.md</PackageLicenseUrl>
     <PackageProjectUrl>https://github.com/zonkflut/ArgumentValidation</PackageProjectUrl>
     <RepositoryUrl>https://github.com/zonkflut/ArgumentValidation.git</RepositoryUrl>
     <RepositoryType>git</RepositoryType>
     <Product>ArgumentValidation</Product>
-    <Version>1.0.1</Version>
+    <Version>1.0.2</Version>
     <PackageReleaseNotes></PackageReleaseNotes>
     <PackageTags>Validation</PackageTags>
     <RootNamespace>Zonkflut.ArgumentValidation</RootNamespace>
-    <AssemblyVersion>1.0.1.0</AssemblyVersion>
-    <FileVersion>1.0.1.0</FileVersion>
+    <AssemblyVersion>1.0.2.0</AssemblyVersion>
+    <FileVersion>1.0.2.0</FileVersion>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|AnyCPU'">
     <DocumentationFile>bin\Release\net461\ArgumentValidation.xml</DocumentationFile>
