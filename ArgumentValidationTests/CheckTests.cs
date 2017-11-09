@@ -75,11 +75,57 @@ namespace ArgumentValidationTests
         }
 
         [Test]
+        public void GeneralCheckArgument_MatchingOn_ReturnsValue()
+        {
+            var myArgument = "Test";
+            var returnedValue = CheckArgument(() => myArgument).Is.MatchingOn(a => a == "Test").Value;
+            Assert.AreEqual(myArgument, returnedValue);
+        }
+
+        [Test]
+        public void GeneralCheckArgument_MatchingOn_ThrowsArgumentNullException_ForNullReference()
+        {
+            string myArgument = null;
+            Assert.That(
+                () =>CheckArgument(() => myArgument).Is.MatchingOn(a => a[0] == 'T'), 
+                Throws.ArgumentNullException.With.Message.EqualTo($"{nameof(myArgument)} did not match criteria, actual value is null\r\nParameter name: {nameof(myArgument)}"));
+        }
+
+        [Test]
+        public void GeneralCheckArgument_MatchingOn_ThrowsArgumentNullException_ForNullReference_WithCustomMessage()
+        {
+            string myArgument = null;
+            var message = "custom message";
+            Assert.That(
+                () => CheckArgument(() => myArgument).Is.MatchingOn(a => a[0] == 'T', message),
+                Throws.ArgumentNullException.With.Message.EqualTo($"{message}\r\nParameter name: {nameof(myArgument)}"));
+        }
+
+        [Test]
+        public void GeneralCheckArgument_MatchingOn_ThrowsArgumentException()
+        {
+            var myArgument = "Test";
+            Assert.That(
+                () => CheckArgument(() => myArgument).Is.MatchingOn(a => a == "Missmatch"),
+                Throws.ArgumentException.With.Message.EqualTo($"{nameof(myArgument)} did not match criteria, actual value is {myArgument}\r\nParameter name: {nameof(myArgument)}"));
+        }
+
+        [Test]
         public void ComparableCheckArgument_IsGreaterThan_ReturnsValue()
         {
             var myArgument = 10;
             var returnedValue = CheckArgument(() => myArgument).Is.GreaterThan(5).Value;
             Assert.AreEqual(myArgument, returnedValue);
+        }
+
+        [Test]
+        public void GeneralCheckArgument_MatchingOn_ThrowsArgumentException_WithCustomMessage()
+        {
+            var myArgument = "Test";
+            var message = "custom message";
+            Assert.That(
+                () => CheckArgument(() => myArgument).Is.MatchingOn(a => a == "Missmatch", message),
+                Throws.ArgumentException.With.Message.EqualTo($"{message}\r\nParameter name: {nameof(myArgument)}"));
         }
 
         [Test]
@@ -181,11 +227,49 @@ namespace ArgumentValidationTests
         }
 
         [Test]
+        public void StringCheckArgument_Matching_ThrowsArgumentNullException()
+        {
+            string myArgument = null;
+            Assert.That(
+                () => CheckArgument(() => myArgument).Is.Matching("[a-z ]+ "),
+                Throws.ArgumentNullException.With.Message.EqualTo($"{nameof(myArgument)} does not match pattern\r\nParameter name: {nameof(myArgument)}"));
+        }
+
+        [Test]
+        public void StringCheckArgument_Matching_ThrowsArgumentNullException_WithCustomMessage()
+        {
+            string myArgument = null;
+            var message = "custom message";
+            Assert.That(
+                () => CheckArgument(() => myArgument).Is.Matching("[a-z ]+ ", message),
+                Throws.ArgumentNullException.With.Message.EqualTo($"{message}\r\nParameter name: {nameof(myArgument)}"));
+        }
+
+        [Test]
         public void StringCheckArgument_NotNullOrEmpty_ReturnsValue()
         {
             var myArgument = "hello world";
             var returnedValue = CheckArgument(() => myArgument).Is.NotNullOrEmpty().Value;
             Assert.AreEqual(myArgument, returnedValue);
+        }
+
+        [Test]
+        public void StringCheckArgument_Matching_ThrowsArgumentException()
+        {
+            var myArgument = "Hello World!";
+            Assert.That(
+                () => CheckArgument(() => myArgument).Is.Matching("[0-9]+ "),
+                Throws.ArgumentException.With.Message.EqualTo($"{nameof(myArgument)} does not match pattern\r\nParameter name: {nameof(myArgument)}"));
+        }
+
+        [Test]
+        public void StringCheckArgument_Matching_ThrowsArgumentException_WithCustomMessage()
+        {
+            var myArgument = "Hello World!";
+            var message = "custom message";
+            Assert.That(
+                () => CheckArgument(() => myArgument).Is.Matching("[0-9]+ ", message),
+                Throws.ArgumentException.With.Message.EqualTo($"{message}\r\nParameter name: {nameof(myArgument)}"));
         }
 
         [Test]

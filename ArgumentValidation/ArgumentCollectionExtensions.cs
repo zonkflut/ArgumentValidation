@@ -33,10 +33,10 @@ namespace Zonkflut.ArgumentValidation
         public static ICollectionAndArgument<T> NotEmpty<T>(this CollectionArgument<T> argument, string message = null)
             where T : ICollection
         {
-            if (argument.Value == null)
+            if (Equals(argument.Value, null))
                 throw new ArgumentNullException(argument.Name, message ?? $"{argument.Name} cannot be null.");
 
-            if (argument.Value.Count == 0)
+            if (Equals(argument.Value.Count, 0))
                 throw new ArgumentException(message ?? $"{argument.Name} cannot be empty.", argument.Name);
 
             return argument;
@@ -55,10 +55,10 @@ namespace Zonkflut.ArgumentValidation
         public static ICollectionAndArgument<T> Count<T>(this CollectionArgument<T> argument, int expectedCount, string message = null)
             where T : ICollection
         {
-            if (argument.Value == null)
+            if (Equals(argument.Value, null))
                 throw new ArgumentNullException(argument.Name, message ?? $"{argument.Name} expected count: {expectedCount} actual: null");
 
-            if (argument.Value.Count != expectedCount)
+            if (Equals(argument.Value.Count, expectedCount) == false)
                 throw new ArgumentException(message ?? $"{argument.Name} expected count: {expectedCount} actual: {argument.Value.Count}", argument.Name);
             
             return argument;
@@ -77,7 +77,7 @@ namespace Zonkflut.ArgumentValidation
         public static ICollectionAndArgument<T> CountLessThan<T>(this CollectionArgument<T> argument, int lessThanCount, string message = null)
             where T : ICollection
         {
-            if (argument.Value == null)
+            if (Equals(argument.Value, null))
                 throw new ArgumentNullException(argument.Name, message ?? $"{argument.Name} count must be less than {lessThanCount} actual value null");
 
             if (argument.Value.Count >= lessThanCount)
@@ -99,7 +99,7 @@ namespace Zonkflut.ArgumentValidation
         public static ICollectionAndArgument<T> CountGreaterThan<T>(this CollectionArgument<T> argument, int greaterThanCount, string message = null)
             where T : ICollection
         {
-            if (argument.Value == null)
+            if (Equals(argument.Value, null))
                 throw new ArgumentNullException(argument.Name, message ?? $"{argument.Name} count must be greater than {greaterThanCount} actual value null");
 
             if (argument.Value.Count <= greaterThanCount)
@@ -120,10 +120,10 @@ namespace Zonkflut.ArgumentValidation
         public static ICollectionAndArgument<T> ContainingItem<T>(this CollectionArgument<T> argument, object item, string message = null)
             where T : ICollection
         {
-            if (argument.Value == null)
+            if (Equals(argument.Value, null))
                 throw new ArgumentNullException(argument.Name, message ?? $"{argument.Name} does not contain provided item");
 
-            if (argument.Value.Cast<object>().All(i => i != item))
+            if (argument.Value.Cast<object>().All(i => Equals(i, item) == false))
                 throw new ArgumentException(message ?? $"{argument.Name} does not contain provided item", argument.Name);
 
             return argument;

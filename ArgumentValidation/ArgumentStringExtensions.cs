@@ -20,7 +20,7 @@ namespace Zonkflut.ArgumentValidation
         public static IAndArgument<T> NotNullOrWhitespace<T>(this Argument<T> argument, string message = null)
             where T : IEquatable<string>
         {
-            if (argument.Value == null)
+            if (Equals(argument.Value, null))
                 throw new ArgumentNullException(argument.Name, message ?? $"{argument.Name} cannot be null or whitespace");
 
             if (typeof(T) == typeof(string) && string.IsNullOrWhiteSpace(argument.Value as string))
@@ -40,7 +40,7 @@ namespace Zonkflut.ArgumentValidation
         public static IAndArgument<T> NotNullOrEmpty<T>(this Argument<T> argument, string message = null)
             where T : IEquatable<string>
         {
-            if (argument.Value == null)
+            if (Equals(argument.Value, null))
                 throw new ArgumentNullException(argument.Name, message ?? $"{argument.Name} cannot be null or empty");
 
             if (typeof(T) == typeof(string) && string.IsNullOrEmpty(argument.Value as string))
@@ -61,7 +61,7 @@ namespace Zonkflut.ArgumentValidation
         public static IAndArgument<T> Matching<T>(this Argument<T> argument, [RegexPattern] string regex, string message = null)
             where T : IEquatable<string>
         {
-            if (argument.Value == null)
+            if (Equals(argument.Value, null))
                 throw new ArgumentNullException(argument.Name, message ?? $"{argument.Name} does not match pattern");
 
             if (typeof(T) == typeof(string) && Regex.IsMatch(argument.Value.ToString(), regex, RegexOptions.Singleline) == false)
