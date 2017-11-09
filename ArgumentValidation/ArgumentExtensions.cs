@@ -52,13 +52,13 @@ namespace Zonkflut.ArgumentValidation
             try
             {
                 if (criteria(argument.Value) == false)
-                    throw new ArgumentException(message ?? $"{argument.Name} did not match criteria, actual value is null", argument.Name);
+                    throw new ArgumentException(message ?? $"{argument.Name} did not match criteria, actual value is {argument.Value}", argument.Name);
 
                 return argument;
             }
             catch (NullReferenceException)
             {
-                throw new ArgumentNullException(argument.Name, message ?? $"{argument.Name} did not match criteria, actual value is {argument.Value}");
+                throw new ArgumentNullException(argument.Name, message ?? $"{argument.Name} did not match criteria, actual value is {argument.Value?.ToString() ?? "null"}");
             }
         }
     }

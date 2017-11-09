@@ -1,4 +1,5 @@
-﻿using System.Linq;
+﻿using System.Collections.Generic;
+using System.Linq;
 using NUnit.Framework;
 using Zonkflut.ArgumentValidation;
 using static Zonkflut.ArgumentValidation.ArgumentValidator;
@@ -480,6 +481,15 @@ namespace ArgumentValidationTests
             Assert.That(
                 () => CheckArgument(() => myArgument).Collection().Is.ContainingItem("not found", message),
                 Throws.ArgumentException.With.Message.EqualTo($"{message}\r\nParameter name: {nameof(myArgument)}"));
+        }
+
+        [Test]
+        public void CollectionChecksArgument_WithGenericList()
+        {
+            var myArgument = new List<string> {"one"};
+            Assert.That(
+                () => CheckArgument(() => myArgument).Collection().Is.ContainingItem("one"),
+                Throws.Nothing);
         }
     }
 }
