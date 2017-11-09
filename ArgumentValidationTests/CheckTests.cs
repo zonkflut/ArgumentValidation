@@ -1,7 +1,7 @@
 ﻿using System.Linq;
 using NUnit.Framework;
-using ArgumentValidation;
-using static ArgumentValidation.ArgumentValidator;
+using Zonkflut.ArgumentValidation;
+using static Zonkflut.ArgumentValidation.ArgumentValidator;
 
 namespace ArgumentValidationTests
 {
@@ -140,7 +140,6 @@ namespace ArgumentValidationTests
             Assert.AreEqual(myArgument, returnValue);
         }
 
-        [TestCase((string)null)]
         [TestCase("")]
         [TestCase("\r")]
         [TestCase("\n")]
@@ -155,6 +154,15 @@ namespace ArgumentValidationTests
         }
 
         [Test]
+        public void StringCheckArgument_NotNullOrWhitespace_ThrowsArgumentNullException_WithDefaultMessage()
+        {
+            var myArgument = null as string;
+            Assert.That(
+                () => CheckArgument(() => myArgument).Is.NotNullOrWhitespace(),
+                Throws.ArgumentNullException.With.Message.EqualTo($"{nameof(myArgument)} cannot be null or whitespace\r\nParameter name: {nameof(myArgument)}"));
+        }
+
+        [Test]
         public void StringCheckArgument_NotNullOrWhitespace_ThrowsArgumentException_WithCustomMessage()
         {
             var myArgument = "\r\n\t ";
@@ -165,6 +173,14 @@ namespace ArgumentValidationTests
         }
 
         [Test]
+        public void StringCheckArgument_Matching_ReturnsValue()
+        {
+            var myArgument = "hello world";
+            var returnValue = CheckArgument(() => myArgument).Is.Matching("[a-z ]+ ").Value;
+            Assert.AreEqual(myArgument, returnValue);
+        }
+
+        [Test]
         public void StringCheckArgument_NotNullOrEmpty_ReturnsValue()
         {
             var myArgument = "hello world";
@@ -172,11 +188,19 @@ namespace ArgumentValidationTests
             Assert.AreEqual(myArgument, returnedValue);
         }
 
-        [TestCase(null)]
-        [TestCase("")]
-        public void StringCheckArgument_NotNullOrEmpty_ThrowsArgumentException_WithDefaultMessage(string argumentValue)
+        [Test]
+        public void StringCheckArgument_NotNullOrEmpty_ThrowsArgumentNullException_WithDefaultMessage()
         {
-            var myArgument = argumentValue;
+            var myArgument = null as string;
+            Assert.That(
+                () => CheckArgument(() => myArgument).Is.NotNullOrEmpty(),
+                Throws.ArgumentNullException.With.Message.EqualTo($"{nameof(myArgument)} cannot be null or empty\r\nParameter name: {nameof(myArgument)}"));
+        }
+
+        [Test]
+        public void StringCheckArgument_NotNullOrEmpty_ThrowsArgumentException_WithDefaultMessage()
+        {
+            var myArgument = string.Empty;
             Assert.That(
                 () => CheckArgument(() => myArgument).Is.NotNullOrEmpty(),
                 Throws.ArgumentException.With.Message.EqualTo($"{nameof(myArgument)} cannot be null or empty\r\nParameter name: {nameof(myArgument)}"));
@@ -244,7 +268,7 @@ namespace ArgumentValidationTests
             var expectedCount = 1;
             Assert.That(
                 () => CheckArgument(() => myArgument).Collection().Is.Count(expectedCount),
-                Throws.ArgumentException.With.Message.EqualTo($"{nameof(myArgument)} expected count: {expectedCount} actual: null\r\nParameter name: {nameof(myArgument)}"));
+                Throws.ArgumentNullException.With.Message.EqualTo($"{nameof(myArgument)} expected count: {expectedCount} actual: null\r\nParameter name: {nameof(myArgument)}"));
         }
 
         [Test]
@@ -284,7 +308,7 @@ namespace ArgumentValidationTests
             var lessThanCount = 10;
             Assert.That(
                 () => CheckArgument(() => myArgument).Collection().Is.CountLessThan(lessThanCount),
-                Throws.ArgumentException.With.Message.EqualTo($"{nameof(myArgument)} count must be less than {lessThanCount} actual value null\r\nParameter name: {nameof(myArgument)}"));
+                Throws.ArgumentNullException.With.Message.EqualTo($"{nameof(myArgument)} count must be less than {lessThanCount} actual value null\r\nParameter name: {nameof(myArgument)}"));
         }
 
         [Test]
@@ -324,7 +348,7 @@ namespace ArgumentValidationTests
             var greaterThanCount = 10;
             Assert.That(
                 () => CheckArgument(() => myArgument).Collection().Is.CountGreaterThan(greaterThanCount),
-                Throws.ArgumentException.With.Message.EqualTo($"{nameof(myArgument)} count must be greater than {greaterThanCount} actual value null\r\nParameter name: {nameof(myArgument)}"));
+                Throws.ArgumentNullException.With.Message.EqualTo($"{nameof(myArgument)} count must be greater than {greaterThanCount} actual value null\r\nParameter name: {nameof(myArgument)}"));
         }
 
         [Test]
@@ -361,7 +385,7 @@ namespace ArgumentValidationTests
             string[] myArgument = null;
             Assert.That(
                 () => CheckArgument(() => myArgument).Collection().Is.ContainingItem("not found"),
-                Throws.ArgumentException.With.Message.EqualTo($"{nameof(myArgument)} does not contain provided item\r\nParameter name: {nameof(myArgument)}"));
+                Throws.ArgumentNullException.With.Message.EqualTo($"{nameof(myArgument)} does not contain provided item\r\nParameter name: {nameof(myArgument)}"));
         }
 
         [Test]

@@ -2,12 +2,12 @@
 using System.Collections;
 using System.Linq;
 
-namespace ArgumentValidation
+namespace Zonkflut.ArgumentValidation
 {
     /// <summary>
     /// A set of Collection checks for the <see cref="Argument{T}"/> class.
     /// </summary>
-    public static class ArgumentCollectionExtesnsions
+    public static class ArgumentCollectionExtensions
     {
         /// <summary>
         /// Returns the collection interfaces for collection checks.
@@ -28,11 +28,15 @@ namespace ArgumentValidation
         /// <param name="argument">The argument under validation.</param>
         /// <param name="message">An optional exception message that overrides the default.</param>
         /// <returns>An <see cref="ICollectionAndArgument{T}"/> providing access to the argument's value and further checks.</returns>
+        /// <exception cref="ArgumentNullException">If the collection is null.</exception>
         /// <exception cref="ArgumentException">If the collection is empty.</exception>
         public static ICollectionAndArgument<T> NotEmpty<T>(this CollectionArgument<T> argument, string message = null)
             where T : ICollection
         {
-            if (argument.Value?.Count == 0)
+            if (argument.Value == null)
+                throw new ArgumentNullException(argument.Name, message ?? $"{argument.Name} cannot be null.");
+
+            if (argument.Value.Count == 0)
                 throw new ArgumentException(message ?? $"{argument.Name} cannot be empty.", argument.Name);
 
             return argument;
@@ -46,12 +50,16 @@ namespace ArgumentValidation
         /// <param name="expectedCount">The expected count of items in the collection.</param>
         /// <param name="message">An optional exception message that overrides the default.</param>
         /// <returns>An <see cref="ICollectionAndArgument{T}"/> providing access to the argument's value and further checks.</returns>
+        /// <exception cref="ArgumentNullException">If the collection is null.</exception>
         /// <exception cref="ArgumentException">If the collection does not contain the specified number of items.</exception>
         public static ICollectionAndArgument<T> Count<T>(this CollectionArgument<T> argument, int expectedCount, string message = null)
             where T : ICollection
         {
-            if (argument.Value?.Count != expectedCount)
-                throw new ArgumentException(message ?? $"{argument.Name} expected count: {expectedCount} actual: {argument.Value?.Count.ToString() ?? "null"}", argument.Name);
+            if (argument.Value == null)
+                throw new ArgumentNullException(argument.Name, message ?? $"{argument.Name} expected count: {expectedCount} actual: null");
+
+            if (argument.Value.Count != expectedCount)
+                throw new ArgumentException(message ?? $"{argument.Name} expected count: {expectedCount} actual: {argument.Value.Count}", argument.Name);
             
             return argument;
         }
@@ -64,12 +72,16 @@ namespace ArgumentValidation
         /// <param name="lessThanCount">The comparison value for the Less Than Check.</param>
         /// <param name="message">An optional exception message that overrides the default.</param>
         /// <returns>An <see cref="ICollectionAndArgument{T}"/> providing access to the argument's value and further checks.</returns>
+        /// <exception cref="ArgumentNullException">If the collection is null.</exception>
         /// <exception cref="ArgumentException">If the collection's count is not less than the specified number.</exception>
         public static ICollectionAndArgument<T> CountLessThan<T>(this CollectionArgument<T> argument, int lessThanCount, string message = null)
             where T : ICollection
         {
-            if (argument.Value == null || argument.Value.Count >= lessThanCount)
-                throw new ArgumentException(message ?? $"{argument.Name} count must be less than {lessThanCount} actual value {argument.Value?.Count.ToString() ?? "null"}", argument.Name);
+            if (argument.Value == null)
+                throw new ArgumentNullException(argument.Name, message ?? $"{argument.Name} count must be less than {lessThanCount} actual value null");
+
+            if (argument.Value.Count >= lessThanCount)
+                throw new ArgumentException(message ?? $"{argument.Name} count must be less than {lessThanCount} actual value {argument.Value.Count}", argument.Name);
 
             return argument;
         }
@@ -82,12 +94,16 @@ namespace ArgumentValidation
         /// <param name="greaterThanCount">The comparison value for the Greater Than Check.</param>
         /// <param name="message">An optional exception message that overrides the default.</param>
         /// <returns>An <see cref="ICollectionAndArgument{T}"/> providing access to the argument's value and further checks.</returns>
+        /// <exception cref="ArgumentNullException">If the collection is null.</exception>
         /// <exception cref="ArgumentException">If the collection's count is not greater than the specified number.</exception>
         public static ICollectionAndArgument<T> CountGreaterThan<T>(this CollectionArgument<T> argument, int greaterThanCount, string message = null)
             where T : ICollection
         {
-            if (argument.Value == null || argument.Value.Count <= greaterThanCount)
-                throw new ArgumentException(message ?? $"{argument.Name} count must be greater than {greaterThanCount} actual value {argument.Value?.Count.ToString() ?? "null"}", argument.Name);
+            if (argument.Value == null)
+                throw new ArgumentNullException(argument.Name, message ?? $"{argument.Name} count must be greater than {greaterThanCount} actual value null");
+
+            if (argument.Value.Count <= greaterThanCount)
+                throw new ArgumentException(message ?? $"{argument.Name} count must be greater than {greaterThanCount} actual value {argument.Value.Count}", argument.Name);
 
             return argument;
         }
@@ -104,7 +120,10 @@ namespace ArgumentValidation
         public static ICollectionAndArgument<T> ContainingItem<T>(this CollectionArgument<T> argument, object item, string message = null)
             where T : ICollection
         {
-            if (argument.Value == null || argument.Value.Cast<object>().All(i => i != item))
+            if (argument.Value == null)
+                throw new ArgumentNullException(argument.Name, message ?? $"{argument.Name} does not contain provided item");
+
+            if (argument.Value.Cast<object>().All(i => i != item))
                 throw new ArgumentException(message ?? $"{argument.Name} does not contain provided item", argument.Name);
 
             return argument;

@@ -1,4 +1,4 @@
-﻿namespace ArgumentValidation
+﻿namespace Zonkflut.ArgumentValidation
 {
     /// <summary>
     /// The initial Validation check.

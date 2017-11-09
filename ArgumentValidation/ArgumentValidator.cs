@@ -3,7 +3,7 @@ using System.Collections;
 using System.Linq;
 using System.Linq.Expressions;
 
-namespace ArgumentValidation
+namespace Zonkflut.ArgumentValidation
 {
     /// <summary>
     /// Provides a set of validations for arguements.

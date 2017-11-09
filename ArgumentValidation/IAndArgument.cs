@@ -1,6 +1,4 @@
-using System.Collections.Generic;
-
-namespace ArgumentValidation
+namespace Zonkflut.ArgumentValidation
 {
     /// <summary>
     /// Any further validation checks after a <see cref="IIsArgument{T}"/> check has occurred.

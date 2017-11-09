@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace ArgumentValidation
+namespace Zonkflut.ArgumentValidation
 {
     /// <summary>
     /// A set of general checks for the <see cref="Argument{T}"/> class.

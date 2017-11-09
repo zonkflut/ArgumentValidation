@@ -1,4 +1,4 @@
-﻿namespace ArgumentValidation
+﻿namespace Zonkflut.ArgumentValidation
 {
     /// <summary>
     /// An argument, it's name, value, and Validation operations.

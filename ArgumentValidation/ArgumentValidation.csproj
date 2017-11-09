@@ -3,7 +3,7 @@
   <PropertyGroup>
     <TargetFramework>net461</TargetFramework>
     <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
-    <PackageId>ArgumentValidation</PackageId>
+    <PackageId>Zonkflut.ArgumentValidation</PackageId>
     <Authors>Erik Nilsson</Authors>
     <Company>Erik Nilsson</Company>
     <Description>A validator of arguments</Description>
@@ -13,8 +13,18 @@
     <RepositoryUrl>https://github.com/zonkflut/ArgumentValidation.git</RepositoryUrl>
     <RepositoryType>git</RepositoryType>
     <Product>ArgumentValidation</Product>
-    <Version>1.0.0</Version>
+    <Version>1.0.1</Version>
     <PackageReleaseNotes></PackageReleaseNotes>
+    <PackageTags>Validation</PackageTags>
+    <RootNamespace>Zonkflut.ArgumentValidation</RootNamespace>
+    <AssemblyVersion>1.0.1.0</AssemblyVersion>
+    <FileVersion>1.0.1.0</FileVersion>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|AnyCPU'">
+    <DocumentationFile>bin\Release\net461\ArgumentValidation.xml</DocumentationFile>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
+    <DocumentationFile>bin\Debug\net461\ArgumentValidation.xml</DocumentationFile>
   </PropertyGroup>
   <ItemGroup>
     <Compile Remove="Properties\AssemblyInfo.cs" />

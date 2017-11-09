@@ -1,4 +1,4 @@
-namespace ArgumentValidation
+namespace Zonkflut.ArgumentValidation
 {
     /// <summary>
     /// Any further collection validation checks after a <see cref="ICollectionIsArgument{T}"/> check has occurred.

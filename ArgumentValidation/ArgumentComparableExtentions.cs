@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace ArgumentValidation
+namespace Zonkflut.ArgumentValidation
 {
     /// <summary>
     /// A set of <see cref="IComparable"/> checks for the <see cref="Argument{T}"/> class.
