@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections;
+using System.Collections.Generic;
 using System.Linq;
 using System.Linq.Expressions;
 
@@ -8,7 +9,7 @@ namespace Zonkflut.ArgumentValidation
     /// <summary>
     /// Provides a set of validations for arguements.
     /// </summary>
-    public static class ArgumentValidator
+    public class ArgumentValidator
     {
         /// <summary>
         /// Validates a provided parameter.
@@ -28,6 +29,79 @@ namespace Zonkflut.ArgumentValidation
             return member.Type.GetInterfaces().Contains(typeof(ICollection))
                 ? new CollectionArgument<T>(argumentName ?? member.Member.Name, value)
                 : new Argument<T>(argumentName ?? member.Member.Name, value);
+        }
+
+        /// <summary>
+        /// Creates an instance of the ArgumentValidator for collecting validation errors.
+        /// </summary>
+        /// <returns>An instance of the ArgumentValidator</returns>
+        public static ArgumentValidator CreateValidationErrorCollector()
+        {
+            return new ArgumentValidator();
+        }
+
+        private readonly List<Exception> exceptions;
+
+        /// <summary>
+        /// Private constructor to force the use of the static method.
+        /// </summary>
+        private ArgumentValidator()
+        {
+            exceptions = new List<Exception>();
+        }
+
+        /// <summary>
+        /// Collects the validation error for a IAndArgument
+        /// </summary>
+        /// <typeparam name="T">The type of the Argument under validation.</typeparam>
+        /// <param name="argument">The argument under validation.</param>
+        /// <param name="validation"></param>
+        /// <returns>The an object with the initial value</returns>
+        public IValue<T> Add<T>(Expression<Func<T>> argument, Func<IIsArgument<T>, IAndArgument<T>> validation)
+        {
+            var check = CheckArgument(argument);
+            try
+            {
+                return validation(check);
+            }
+            catch (Exception e)
+            {
+                var value = ((IValue<T>)check).Value;
+                exceptions.Add(e);
+                return new FailedResultValue<T>(value);
+            }
+        }
+
+        /// <summary>
+        /// Collects the validation error for a ICollectionAndArgument
+        /// </summary>
+        /// <typeparam name="T">The type of the Argument under validation.</typeparam>
+        /// <param name="argument">The argument under validation.</param>
+        /// <param name="validation"></param>
+        /// <returns>The an object with the initial value</returns>
+        public IValue<T> Add<T>(Expression<Func<T>> argument, Func<IIsArgument<T>, ICollectionAndArgument<T>> validation)
+        {
+            var check = CheckArgument(argument);
+            try
+            {
+                return validation(check);
+            }
+            catch (Exception e)
+            {
+                var value = ((IValue<T>)check).Value;
+                exceptions.Add(e);
+                return new FailedResultValue<T>(value);
+            }
+        }
+
+        /// <summary>
+        /// Throws a <see cref="CompositeValidationException"/> if any validation exceptions are collected.
+        /// </summary>
+        /// <param name="message">The error message.</param>
+        public void ThrowAll(string message)
+        {
+            if (exceptions.Any())
+                throw new CompositeValidationException(exceptions, message);
         }
     }
 }

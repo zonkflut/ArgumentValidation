@@ -180,6 +180,50 @@ namespace ArgumentValidationTests
         }
 
         [Test]
+        public void ComparableCheckArgument_IsLessThanOrEqualTo_ReturnsValue()
+        {
+            var myArgument = 5;
+            const int CheckEquals = 5;
+            const int CheckLarger = 6;
+            var value1 = CheckArgument(() => myArgument).Is.LessThanOrEqualTo(CheckEquals).Value;
+            var value2 = CheckArgument(() => myArgument).Is.LessThanOrEqualTo(CheckLarger).Value;
+            Assert.AreEqual(myArgument, value1);
+            Assert.AreEqual(myArgument, value2);
+        }
+
+        [Test]
+        public void ComparableCheckArgument_IsLessThanOrEqualTo_ThrowsArgumentException_WithDefaultMessage()
+        {
+            var myArgument = 5;
+            const int CompareValue = 4;
+            Assert.That(
+                () => CheckArgument(() => myArgument).Is.LessThanOrEqualTo(CompareValue),
+                Throws.ArgumentException.With.Message.EqualTo($"{nameof(myArgument)} must be less than or equal to {CompareValue}, actual value is {myArgument}\r\nParameter name: {nameof(myArgument)}"));
+        }
+
+        [Test]
+        public void ComparableCheckArgument_IsGreaterThanOrEqualTo_ReturnsValue()
+        {
+            var myArgument = 5;
+            const int CheckEquals = 5;
+            const int CheckSmaller = 4;
+            var value1 = CheckArgument(() => myArgument).Is.GreaterThanOrEqualTo(CheckEquals).Value;
+            var value2 = CheckArgument(() => myArgument).Is.GreaterThanOrEqualTo(CheckSmaller).Value;
+            Assert.AreEqual(myArgument, value1);
+            Assert.AreEqual(myArgument, value2);
+        }
+
+        [Test]
+        public void ComparableCheckArgument_IsGreaterThanOrEqualTo_ThrowsArgumentException_WithDefaultMessage()
+        {
+            var myArgument = 5;
+            const int CompareValue = 6;
+            Assert.That(
+                () => CheckArgument(() => myArgument).Is.GreaterThanOrEqualTo(CompareValue),
+                Throws.ArgumentException.With.Message.EqualTo($"{nameof(myArgument)} must be greater than or equal to {CompareValue}, actual value is {myArgument}\r\nParameter name: {nameof(myArgument)}"));
+        }
+
+        [Test]
         public void StringCheckArgument_NotNullOrWhitespace_ReturnsValue()
         {
             var myArgument = "hello world";
