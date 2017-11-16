@@ -28,7 +28,7 @@ namespace Zonkflut.ArgumentValidation
         /// </summary>
         /// <param name="exceptions">The list of validation exceptions.</param>
         /// <param name="message">The exception message</param>
-        public CompositeValidationException(List<Exception> exceptions, string message) : base(message)
+        public CompositeValidationException(List<ArgumentException> exceptions, string message) : base(message)
         {
             Exceptions = exceptions;
         }
@@ -41,13 +41,13 @@ namespace Zonkflut.ArgumentValidation
         protected CompositeValidationException(SerializationInfo info, StreamingContext context)
             : base(info, context)
         {
-            Exceptions = info.GetValue("Exceptions", typeof(List<Exception>)) as List<Exception> ?? new List<Exception>();
+            Exceptions = info.GetValue("Exceptions", typeof(List<ArgumentException>)) as List<ArgumentException> ?? new List<ArgumentException>();
         }
 
         /// <summary>
         /// The list of exceptions.
         /// </summary>
-        public List<Exception> Exceptions { get; set; }
+        public List<ArgumentException> Exceptions { get; set; }
 
         /// <summary>
         /// For serialising the exception

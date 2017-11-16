@@ -40,14 +40,14 @@ namespace Zonkflut.ArgumentValidation
             return new ArgumentValidator();
         }
 
-        private readonly List<Exception> exceptions;
+        private readonly List<ArgumentException> exceptions;
 
         /// <summary>
         /// Private constructor to force the use of the static method.
         /// </summary>
         private ArgumentValidator()
         {
-            exceptions = new List<Exception>();
+            exceptions = new List<ArgumentException>();
         }
 
         /// <summary>
@@ -64,7 +64,7 @@ namespace Zonkflut.ArgumentValidation
             {
                 return validation(check);
             }
-            catch (Exception e)
+            catch (ArgumentException e)
             {
                 var value = ((IValue<T>)check).Value;
                 exceptions.Add(e);
@@ -86,7 +86,7 @@ namespace Zonkflut.ArgumentValidation
             {
                 return validation(check);
             }
-            catch (Exception e)
+            catch (ArgumentException e)
             {
                 var value = ((IValue<T>)check).Value;
                 exceptions.Add(e);
