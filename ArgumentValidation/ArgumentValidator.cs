@@ -57,9 +57,19 @@ namespace Zonkflut.ArgumentValidation
         /// <param name="argument">The argument under validation.</param>
         /// <param name="validation"></param>
         /// <returns>The an object with the initial value</returns>
-        public IValue<T> Add<T>(Expression<Func<T>> argument, Func<IIsArgument<T>, IAndArgument<T>> validation)
+        public IValue<T> Add<T>(Expression<Func<T>> argument, Func<IIsArgument<T>, IAndArgument<T>> validation) => Add(argument, null, validation);
+
+        /// <summary>
+        /// Collects the validation error for a IAndArgument
+        /// </summary>
+        /// <typeparam name="T">The type of the Argument under validation.</typeparam>
+        /// <param name="argument">The argument under validation.</param>
+        /// <param name="argumentName">Overrides the reflected name of the parameter.</param>
+        /// <param name="validation"></param>
+        /// <returns>The an object with the initial value</returns>
+        public IValue<T> Add<T>(Expression<Func<T>> argument, string argumentName, Func<IIsArgument<T>, IAndArgument<T>> validation)
         {
-            var check = CheckArgument(argument);
+            var check = CheckArgument(argument, argumentName);
             try
             {
                 return validation(check);
@@ -79,7 +89,17 @@ namespace Zonkflut.ArgumentValidation
         /// <param name="argument">The argument under validation.</param>
         /// <param name="validation"></param>
         /// <returns>The an object with the initial value</returns>
-        public IValue<T> Add<T>(Expression<Func<T>> argument, Func<IIsArgument<T>, ICollectionAndArgument<T>> validation)
+        public IValue<T> Add<T>(Expression<Func<T>> argument, Func<IIsArgument<T>, ICollectionAndArgument<T>> validation) => Add(argument, null, validation);
+
+        /// <summary>
+        /// Collects the validation error for a ICollectionAndArgument
+        /// </summary>
+        /// <typeparam name="T">The type of the Argument under validation.</typeparam>
+        /// <param name="argument">The argument under validation.</param>
+        /// <param name="argumentName">Overrides the reflected name of the parameter.</param>
+        /// <param name="validation"></param>
+        /// <returns>The an object with the initial value</returns>
+        public IValue<T> Add<T>(Expression<Func<T>> argument, string argumentName, Func<IIsArgument<T>, ICollectionAndArgument<T>> validation)
         {
             var check = CheckArgument(argument);
             try
